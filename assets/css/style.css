@@ -130,7 +130,7 @@ section {
 }
 
 .hint {
-    height: 20px;
+    height: 2a0px;
 }
 
 .start-game {
@@ -139,7 +139,7 @@ section {
         cursor: pointer;
         color: #fff;
         background-color: rgb(116, 7, 116);
-        border: 1px solid purple;
+        border: 1px solid #800080;
         border-radius: 4px;
         text-align: center;
         line-height: 40px;
