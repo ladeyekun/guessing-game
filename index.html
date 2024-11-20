@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Lateef Adeyekun">
+        <meta name="description" content="Template">
+        <meta name="keywords" content="Guess, game, keyboard">
+        <title>Guessing game</title>
+        <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Share+Tech+Mono&family=Syne+Mono&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrspecht/cdn/reset.css" media="all">
+        <link rel="stylesheet" href="./assets/css/style.css" media="all">
+        <script src="./assets/js/app.js" defer></script>
+    </head>
+    <body>
+        <main>
+            <div class="video-background">
+                <video autoplay loop muted playsinline>
+                    <source src="./assets/media/bg.mp4" type="video/mp4">
+                </video>
+            </div>            
+            <section class="container grid grid-center">
+                <div class="game-container glass-effect grid gap-30">
+                    <div class="row title flex flex-between">
+                        <h2 class="game-name">Guess me</h2>
+                        <div>
+                            <button class="instruction">i</button>
+                        </div>
+                    </div>
+                    <div class="row hits flex flex-center">
+                        <input 
+                            type="text" 
+                            class="input" 
+                            placeholder="10" 
+                            disabled
+                        >
+                    </div>
+                    <div class="row guesses flex flex-center">
+                        <p>Guesses left: <span class="guess-counter">0</span></p>
+                    </div>
+                    <div class="row hint flex flex-center">
+                        <p><span class="guess-hint">wetin </span></p>
+                    </div>
+                    <div class="row start-game flex flex-center">
+                        <button class="start">play</button>
+                    </div>
+                    <div class="row designer">
+                        <p>Copyright &copy; Lateef Adeyekun</p>
+                    </div>
+                </div>
+            </section>
+            <div class="dialog-overlay">
+                <div class="dialog-box grid gap-10">
+                    <div class="flex">
+                        <h2>Instructions</h2>
+                    </div>
+                    <div class="details grid gap-10">
+                        <ol>
+                            <li>
+                                The game will pick a random number, and you 
+                                guess the number by entering the number in the 
+                                box, and press enter to submit your guess.
+                            </li>
+                            <li>
+                                You have upto five chance to guess the number 
+                                correctly.
+                            </li>
+                            <li>
+                                The game will let you know if you guess is 
+                                higher or lower to the random number
+                            </li>
+                            <li>
+                                You win if you guess the number correctly within
+                                5 guesses.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>    
+        </main>
+    </body>
+</html>
