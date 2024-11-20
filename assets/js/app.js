@@ -131,6 +131,7 @@ function validateInput() {
     if (guess < 1 || guess > 50) {
        throw Error('Guess must be between 1 and 50');
     }
+    --totalGuess;
     return guess;
 }
 
@@ -141,7 +142,7 @@ function clearInput() {
 
 function checkGuess() {
     try {
-        if (totalGuess >= 1) {
+        if (totalGuess > 1) {
             let guess = validateInput();
 
             if (guess > randomNumber) {
@@ -158,12 +159,9 @@ function checkGuess() {
                 inputObj.disabled = true;
                 endGame();
             }
-
-            if (!isGuessCorrect) clearInput();
-
-            totalGuess--;
             updateInnerText(guessCounterObj, totalGuess, false);            
 
+            if (!isGuessCorrect) clearInput();
         } else {
             gameStarted = false
             disableInput();
