@@ -26,7 +26,7 @@ let correctGuess = 0;
 let randomNumber = 0;
 const PLAY = 'start';
 const RESTART = 'restart';
-const PLAY_AGAIN = 'play_again';
+const PLAY_AGAIN = 'play again';
 
 const gameSound = new Audio('./assets/media/game-01.mp3');
 gameSound.type = 'audio/mp3';
@@ -47,7 +47,6 @@ listen('click', playBtn, () => {
 
 listen('keydown', inputObj, (event) => {
     keypressSound.play();
-    console.log(event.key);
     if (event.key === 'Enter') checkGuess();
 });
 
@@ -62,9 +61,9 @@ function startGame() {
         resetGame();
         gameStarted = true;
         gameSound.play();
-        updateInnerText(playBtn, RESTART);
+        updateInnerText(playBtn, RESTART, false);
         setTimeout(() => {
-            randomNumber = getRandomNumber(1, 20);
+            randomNumber = getRandomNumber(1, 50);
             enableInput();    
         }, 1000);
     } else 
@@ -73,16 +72,22 @@ function startGame() {
 
 function resetGame() {
     gameStarted = false;
+    isGuessCorrect = false;
     totalGuess = 5;
-    updateInnerText(guessCounterObj, totalGuess);
-    updateInnerText(playBtn, PLAY);
-    updateInnerText(guessHintObj, '');
+    updateInnerText(guessCounterObj, totalGuess, false);
+    updateInnerText(playBtn, PLAY, false);
+    updateInnerText(guessHintObj, '', false);
     inputObj.value = '';
     disableInput();
     stopSound(gameSound);
 }
 
-function updateInnerText(obj, value) {
+function updateInnerText(obj, value, error = true) {
+    if (error) {
+        if (!obj.classList.contains('error')) obj.classList.add('error');
+    } else {
+        if (obj.classList.contains('error')) obj.classList.remove('error');
+    }
     obj.innerText = value;
 }
 
@@ -101,11 +106,11 @@ function restartGame() {
 function endGame() {
     gameStarted = false;
     if (isGuessCorrect) {
-        updateInnerText(guessHintObj, 'Your guess is correct');
+        updateInnerText(guessHintObj, 'Your guess is correct', false);
     } else {
         updateInnerText(guessHintObj, 'You did not guess correctly');
     }
-    updateInnerText(playBtn, PLAY_AGAIN);
+    updateInnerText(playBtn, PLAY_AGAIN, false);
     stopSound(gameSound);
 }
 
@@ -120,17 +125,58 @@ function enableInput() {
     inputObj.focus();
 }
 
-function validateInput(guess) {
+function validateInput() {
     let guess = parseInt(inputObj.value.trim());
-    if (Number.isNaN(guess)) throw Error('Invalid input');
+    if (Number.isNaN(guess)) throw Error('Guess must be between 1 and 50');
     if (guess < 1 || guess > 50) {
-       throw Error('Invalid input, guess not within range');
+       throw Error('Guess must be between 1 and 50');
     }
     return guess;
 }
 
-function checkGuess(guess) {
-    let guess = parseInt(inputObj.value.trim());
-    console.log(guess);
+function clearInput() {
+    inputObj.value = '';
+    inputObj.focus();
+}
+
+function checkGuess() {
+    try {
+        if (totalGuess >= 1) {
+            let guess = validateInput();
+
+            if (guess > randomNumber) {
+                updateInnerText(guessHintObj, 'My number is smaller');
+            }
+
+            if (guess < randomNumber) {
+                updateInnerText(guessHintObj, 'My number is bigger',);
+            }
+
+            if (guess === randomNumber) {
+                isGuessCorrect = true;
+                gameStarted = false;
+                inputObj.disabled = true;
+                endGame();
+            }
+
+            if (!isGuessCorrect) clearInput();
+
+            totalGuess--;
+            updateInnerText(guessCounterObj, totalGuess, false);            
+
+        } else {
+            gameStarted = false
+            disableInput();
+            endGame();    
+        }
+
+    } catch (error) {
+        updateInnerText(guessHintObj, error.message);
+        inputObj.value = '';
+        inputObj.focus();
+        setTimeout(() => {
+            updateInnerText(guessHintObj, '');
+        }, 3000);
+    }
 }
 

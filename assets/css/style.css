@@ -129,6 +129,10 @@ section {
     }
 }
 
+.hint {
+    height: 20px;
+}
+
 .start-game {
     button {
         text-transform: uppercase;
@@ -153,7 +157,7 @@ section {
 }
 
 .blink {
-    color: red;
+    color: #ff0000;
     animation: blink 1.1s infinite;    
 }
 
@@ -200,13 +204,15 @@ input[disabled] {
     border-radius: 50%;
 }
 
-
+.error {
+    color: #ff0000;
+}
   /*----------------------------------*/
 /* Dialog                         */
 /*----------------------------------*/
 
 .dialog-overlay {
-    display: none; 
+    display: grid; 
     position: fixed;
     inset: 0 auto auto 0;
     width: 100%;
