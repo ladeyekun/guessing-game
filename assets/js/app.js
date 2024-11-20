@@ -20,6 +20,7 @@ const instructionObj = select('.instruction');
 const dialog = select('.dialog-overlay');
 
 let gameStarted = false;
+let isGuessCorrect = false;
 let totalGuess = 5;
 let correctGuess = 0;
 let randomNumber = 0;
@@ -46,15 +47,8 @@ listen('click', playBtn, () => {
 
 listen('keydown', inputObj, (event) => {
     keypressSound.play();
-    if (event.key === 'Backspace') event.preventDefault();
-    if (event.key.toLowerCase() !== randomWordObj.innerText.charAt(0)) event.preventDefault();
-});
-
-listen('input', inputObj, (event) => {
-    let char = event.data.toLowerCase();
-    if (randomWordObj.innerText.charAt(0) === char) {
-        checkWord(char);
-    }
+    console.log(event.key);
+    if (event.key === 'Enter') checkGuess();
 });
 
 listen('click', window, (event) => {
@@ -100,18 +94,19 @@ function stopSound(sound) {
 function restartGame() {
     if (gameStarted) {
         resetGame();
-        clearInterval(timer);
         startGame();
     }
 }
 
 function endGame() {
-    let percentage = hits * 100 / wordBank.length
-    scores.push(new Score(now(), hits, percentage.toFixed(2)));
-    dialogContent();
+    gameStarted = false;
+    if (isGuessCorrect) {
+        updateInnerText(guessHintObj, 'Your guess is correct');
+    } else {
+        updateInnerText(guessHintObj, 'You did not guess correctly');
+    }
+    updateInnerText(playBtn, PLAY_AGAIN);
     stopSound(gameSound);
-    resetGame();
-    clearInterval(timer);
 }
 
 function disableInput() {
@@ -123,5 +118,19 @@ function enableInput() {
     inputObj.disabled = false;
     inputObj.placeholder = '10';
     inputObj.focus();
+}
+
+function validateInput(guess) {
+    let guess = parseInt(inputObj.value.trim());
+    if (Number.isNaN(guess)) throw Error('Invalid input');
+    if (guess < 1 || guess > 50) {
+       throw Error('Invalid input, guess not within range');
+    }
+    return guess;
+}
+
+function checkGuess(guess) {
+    let guess = parseInt(inputObj.value.trim());
+    console.log(guess);
 }
 
